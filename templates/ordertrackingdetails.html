@@ -1,0 +1,141 @@
+{% if orderstatus %}
+<article class="card">
+    <div class="card-body">
+        <div>
+            <dl class="row text-uppercase">
+                <dt class="col-sm-2">Order ID</dt>
+                <dd class="col-sm-9">: 00000{{ order_obj.id }}</dd>
+                <dt class="col-sm-2">Name</dt>
+                <dd class="col-sm-9">: {{ order_obj.customer_name }}</dd>
+                <dt class="col-sm-2">Address</dt>
+                <dd class="col-sm-9">: {{ order_obj.customer_address }}, {{ order_obj.customer_city }}, {{ order_obj.customer_state }}, {{ order_obj.get_customer_contry_display }}</dd>
+                <dt class="col-sm-2 text-truncate">Email</dt>
+                <dd class="col-sm-9">: {{ order_obj.customer_email }}</dd>
+                <dt class="col-sm-2 text-truncate">Phone no</dt>
+                <dd class="col-sm-9">: {{ order_obj.customer_mobile_number }}</dd>
+                <dt class="col-sm-2 text-truncate">Order date</dt>
+                <dd class="col-sm-9">: {{ order_obj.order_date }}</dd>
+            </dl>
+        </div>
+        {% if order_obj.courier_detail_ref %}
+        <article class="card">
+            <header class="card-header">Courier Details</header>
+            <div class="card-body row">
+                <div class="col"><strong>Estimated Delivery time:</strong> <br>
+                {{ order_obj.courier_detail_ref.end_delivery_date }}</div>
+                <div class="col"><strong>Shipping BY:</strong> <br>{{ order_obj.courier_detail_ref.company_name }} 
+                </div>
+                <div class="col"><strong>Contact:</strong> <br> <i class="fa fa-phone"></i>
+                    +{{ order_obj.courier_detail_ref.contact_no }}<br><i class="fa fa-envelope"></i>
+                    {{ order_obj.courier_detail_ref.contact_email }}</div>
+                <div class="col"><strong>Tracking #:</strong> <br> {{ order_obj.courier_detail_ref.tracking_id }}</div>
+            </div>
+        </article>
+        {% endif %}
+        <div class="track">
+            {% if order_obj.order_status == '1' or order_obj.order_status == '2' or order_obj.order_status == '3' or order_obj.order_status == '4'%}
+            {% if order_obj.order_status == '1' %}
+            <div class="step active"><span class="icon"> <i class="fa fa-bell"></i> </span> <span class="text"> Order placed</span>
+            </div>
+            <div class="step"><span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order confirmed</span>
+            </div>
+            <div class="step"><span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> Out for Delivery </span>
+            </div>
+            <div class="step"><span class="icon"> <i class="fa fa-cube"></i> </span> <span class="text">Order Complete</span>
+            </div>
+            {% elif order_obj.order_status == '2' %}
+            <div class="step active"><span class="icon"> <i class="fa fa-bell"></i> </span> <span class="text"> Order placed</span>
+            </div>
+            <div class="step active"><span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order confirmed</span>
+            </div>
+            <div class="step"><span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> Out for Delivery </span>
+            </div>
+            <div class="step"><span class="icon"> <i class="fa fa-cube"></i> </span> <span class="text">Order Complete</span>
+            </div>
+            {% elif order_obj.order_status == '3' %}
+            <div class="step active"><span class="icon"> <i class="fa fa-bell"></i> </span> <span class="text"> Order placed</span>
+            </div>
+            <div class="step active"><span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order confirmed</span>
+            </div>
+            <div class="step active"><span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> Out for Delivery </span>
+            </div>
+            <div class="step"><span class="icon"> <i class="fa fa-cube"></i> </span> <span class="text">Order Complete</span>
+            </div>
+            {% elif order_obj.order_status == '4' %}
+            <div class="step active"><span class="icon"> <i class="fa fa-bell"></i> </span> <span class="text"> Order placed</span>
+            </div>
+            <div class="step active"><span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order confirmed</span>
+            </div>
+            <div class="step active"><span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> Out for Delivery </span>
+            </div>
+            <div class="step active"><span class="icon"> <i class="fa fa-cube"></i> </span> <span class="text">Order Complete</span>
+            </div>
+            {% endif%}
+            {% else %}
+            <div class="step active"><span class="icon"> <i class="fa fa-exclamation-triangle"></i> </span> <span class="text">Order has failed</span>
+            </div>
+            {% endif %}
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-12 order-md-2 mb-4">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted">Order Products</span>
+                </h4>
+                <div class="card">
+                    <div class="table-responsive">
+                        <table class="table table-borderless table-shopping-cart" id="items">
+                            <thead class="text-muted">
+                                <tr class="small text-uppercase">
+                                    <th scope="col">Product</th>
+                                    <th scope="col" width="60">#</th>
+                                    <th scope="col" width="120">Price</th>
+                                </tr>
+                                {% for product in order_obj.products.all %}
+                                <tr>
+                                    <td>
+                                        <figure class="itemside align-items-center">
+                                            <div class="aside"><img src="{{ product.product.product_img.url }}" class="img-sm" id=""></div>
+                                            <figcaption class="info">
+                                                <h6 class="title text-dark" data-abc="true">
+                                                    {{product.product.product_title}}</h6>
+                                            </figcaption>
+                                        </figure>
+                                    </td>
+                                    <td>
+                                        <div class="quantity">
+                                            <div class="quantity buttons_added">
+                                                <span class="text" name="quantity"><b>{{ product.product_quantity }}</b></span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="price-wrap"><span class="price">₹{{ product.total_product_price }}</span>
+                                            <small class="text-muted"> ₹{{ product.single_product_price }} each </small></div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                <tr class="text-success">
+                                    <td><span>Total (Rupee)</span></td>
+                                    <td></td>
+                                    <td><strong> ₹{{ order_obj.total_order_price }}</strong></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <a href="{% url 'products' %}" class="btn btn-warning" data-abc="true"> <i class="fa fa-chevron-left"></i> Back to Shoping</a>
+    </div>
+</article>
+{% else %}
+<div class="alert alert-warning alert-dismissible fade show">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <strong>Warning!</strong> Something Went to Wrong, Please check Order id And Email id.
+</div>
+</div>
+{% endif %}

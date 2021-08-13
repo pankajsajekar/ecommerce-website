@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Contact Page{% endblock title %}
+{% block productsactive %}active{% endblock productsactive %}%}
+{% block body %}
+{% load static %}
+<div class="container my-3">
+    <h2 class="text-center mt-3">Special Arts</h2>
+    <div class="row">
+        {% for product in product %}
+        <div class="col-sm my-3">
+            <div class="card" style="width: 18rem;">
+                <img src=" {% static '{{product.product_img.url} {% static '' %} }' %} " class="card-img-top" width="280px" height="350px" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{product.product_title}}</h5>
+                    <p class="card-text">Rs.{{product.product_price }} ₹ </p>
+                    <a href="#" class="btn btn-primary">view product</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

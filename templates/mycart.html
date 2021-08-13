@@ -1,0 +1,401 @@
+{% extends "base.html" %}
+{% load static %}
+{% block css %}
+<style>
+body {
+    background-color: #eeeeee;
+    font-family: 'Open Sans', serif;
+    font-size: 14px
+
+}
+
+.container-fluid {
+    margin-top: 70px
+}
+
+.card-body {
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 1.40rem
+}
+
+.img-sm {
+    width: 80px;
+    height: 80px
+}
+
+.itemside .info {
+    padding-left: 15px;
+    padding-right: 7px
+}
+
+.table-shopping-cart .price-wrap {
+    line-height: 1.2
+}
+
+.table-shopping-cart .price {
+    font-weight: bold;
+    margin-right: 5px;
+    display: block
+}
+
+.text-muted {
+    color: #969696 !important
+}
+
+a {
+    text-decoration: none !important
+}
+
+.card {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0, 0, 0, .125);
+    border-radius: 0px
+}
+
+.itemside {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100%
+}
+
+.dlist-align {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex
+}
+
+[class*="dlist-"] {
+    margin-bottom: 5px
+}
+
+.coupon {
+    border-radius: 1px
+}
+
+.price {
+    font-weight: 600;
+    color: #212529
+}
+
+.btn.btn-out {
+    outline: 1px solid #fff;
+    outline-offset: -5px
+}
+
+.btn-main {
+    border-radius: 2px;
+    text-transform: capitalize;
+    font-size: 15px;
+    padding: 10px 19px;
+    cursor: pointer;
+    color: #fff;
+    width: 100%
+}
+
+.btn-light {
+    color: #ffffff;
+    background-color: #F44336;
+    border-color: #f8f9fa;
+    font-size: 12px
+}
+
+.btn-light:hover {
+    color: #ffffff;
+    background-color: #F44336;
+    border-color: #F44336
+}
+
+.btn-apply {
+    font-size: 11px
+}
+
+// plus minus
+.quantity {
+ display: inline-block; }
+
+.quantity .input-text.qty {
+ width: 35px;
+ height: 39px;
+ padding: 0 5px;
+ text-align: center;
+ background-color: transparent;
+ border: 1px solid #efefef;
+}
+
+.quantity.buttons_added {
+ text-align: left;
+ position: relative;
+ white-space: nowrap;
+ vertical-align: top; }
+
+.quantity.buttons_added input {
+ display: inline-block;
+ margin: 0;
+ vertical-align: top;
+ box-shadow: none;
+}
+
+.quantity.buttons_added .minus,
+.quantity.buttons_added .plus {
+ padding: 7px 10px 8px;
+ height: 41px;
+ background-color: #ffffff;
+ border: 1px solid #efefef;
+ cursor:pointer;}
+
+.quantity.buttons_added .minus {
+ border-right: 0; }
+
+.quantity.buttons_added .plus {
+ border-left: 0; }
+
+.quantity.buttons_added .minus:hover,
+.quantity.buttons_added .plus:hover {
+ background: #eeeeee; }
+
+.quantity input::-webkit-outer-spin-button,
+.quantity input::-webkit-inner-spin-button {
+ -webkit-appearance: none;
+ -moz-appearance: none;
+ margin: 0; }
+
+ .quantity.buttons_added .minus:focus,
+.quantity.buttons_added .plus:focus {
+ outline: none; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+</style>
+{% endblock css %}
+
+{% block title %}MyCart page{% endblock title %}
+{% block cartactive %}active{% endblock cartactive %}
+{% block cartcurrent %}(current){% endblock cartcurrent %}
+
+{% block body %}
+
+<!-- Page Content -->
+<!-- mycart Page Starts Here -->
+<div class="container-fluid px-5">
+    <div class="row">
+        <div class="col-md-4 col-sm-12">
+            <div class="section-heading mt-0">
+                <div class="line-dec"></div>
+                <h1>Cart</h1>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <aside class="col-md-8 pb-5">
+            <div class="card">
+                <div class="table-responsive">
+                    <table class="table table-borderless table-shopping-cart" id="items">
+                        <thead class="text-muted">
+                        <tr class="small text-uppercase">
+                            <th scope="col">Product</th>
+                            <th scope="col" width="120">Quantity</th>
+                            <th scope="col" width="140">Price</th>
+                            <th scope="col" class="text-right d-none d-md-block" width="100"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </aside>
+        <aside class="col-md-4 ">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <form>
+                        <div class="form-group"><label>Have coupon?</label>
+                            <div class="input-group"><input type="text" class="form-control coupon" name=""
+                                                            placeholder="Coupon code"> <span class="input-group-append"> <button
+                                    class="btn btn-primary btn-apply coupon">Apply</button> </span></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div id="itemli"></div>
+                    <hr>
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="product_cart" id="id_products_cart">
+                        <button type="submit" class="btn btn-out btn-primary btn-square btn-main" data-abc="true"> Make
+                            Purchase
+                        </button>
+                    </form>
+                    <a href="{% url 'products' %}" class="btn btn-out btn-success btn-square btn-main mt-2"
+                       data-abc="true">Continue
+                        Shopping</a>
+                </div>
+            </div>
+        </aside>
+    </div>
+</div>
+
+<!-- mycart Page Ends Here -->
+
+{% endblock body %}
+
+{% block jsblock %}
+<script>
+     if (localStorage.getItem('cart') == null) {
+        var cart = {};
+    } else {
+        cart = JSON.parse(localStorage.getItem('cart'));
+    }
+    console.log(cart);
+    var sum = 0;
+    var total2 = 0;
+    if ($.isEmptyObject(cart)) {
+        // If object is empty
+        mystr = "<p>Your cart is empty, please add some items before checking out ! </p>"
+        $('#items').append(mystr);
+    }
+
+
+    for (item in cart) {
+
+        let name = cart[item][1];
+        let qty = cart[item][0];
+        let singleprice = cart[item][2];
+        let imgsrc = cart[item][4];
+        let new_slug = cart[item][5];
+        sum = sum + qty;
+        total = cart[item][3];
+        total2 = total2 + total;
+        console.log(new_slug.toString());
+
+
+        mystr = `
+        <tr id="trspam${item}">
+                            <td>
+                                <figure class="itemside align-items-center">
+                                    <div class="aside"><img src="${imgsrc}" class="img-sm" id="img${item}"></div>
+                                    <figcaption class="info"><a href="${new_slug}" class="title text-dark" data-abc="true">${name}</a>
+                                        <p class="text-muted small">In Stock<br> Brand: MAXTRA</p>
+                                    </figcaption>
+                                </figure>
+                            </td>
+                            <td>
+                                <div class="quantity">
+                                    <div class="quantity buttons_added">
+                                        <input onclick='minusbtn(this.id , ${item})' type="button" value="-"
+                                               class="minus" id="btnminus${item}" >
+                                        <span  class="input-text qty text" name="quantity" id="qty${item}" class="plus" >${qty}</span>
+                                        <input type="button" value="+" class="plus" id="btnplus${item}"
+                                               onclick='plusbtn(this.id, ${item} )'>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="price">
+                                <span id="singletotal${item}"  class="price">₹ ${total}.00</span>
+                                <small class="text-muted"> ₹ ${singleprice} each </small></div>
+                            </td>
+                            <td class="text-right d-none d-md-block">
+                                 <div class="rem">
+                             <a href="" id="clsbtn${item}" onclick="deleteitem(this.id)" class="btn btn-light" data-abc="true">
+                                Remove</a>
+
+
+                        </div></td>
+
+                        </tr>`
+
+
+        mystrli = `
+        <dl class="dlist-align">
+                        <dt>${name}:</dt>
+                        <dd class="text-right ml-3">₹ <span id= "singletotall${item}">${total}</span>.00</dd>
+                    </dl>
+        `;
+        $('#itemli').append(mystrli);
+        $('#items').append(mystr);
+    }
+
+    mystrtotal = `
+            <dl class="dlist-align">
+                        <dt>Total:</dt>
+                        <dd class="text-right text-dark b ml-3"><strong>₹ <span id="carttotal">0</span>.00</strong></dd>
+                    </dl>`;
+
+    $('#itemli').append(mystrtotal);
+
+
+     document.getElementById('carttotal').innerText = total2;
+
+function minusbtn(clicked_id){
+    var totalf = 0;
+    var a = clicked_id.slice(8, );
+     cart = JSON.parse(localStorage.getItem('cart'));
+        cart[a][0] = cart[a][0] - 1;
+
+        cart[a][0] = Math.max(1, cart[a][0]);
+        updateCart(cart);
+        $('#id_products_cart').val(JSON.stringify(cart));
+        document.getElementById("qty"+a).innerHTML = cart[a][0].toString();
+        document.getElementById("singletotal"+a).innerHTML = cart[a][3].toString();
+        document.getElementById("singletotall"+a).innerHTML = cart[a][3].toString();
+        cart2 = JSON.parse(localStorage.getItem('cart'));
+        for(itemm in cart2){
+        totalf = totalf + cart[itemm][3];
+        }
+        document.getElementById('carttotal').innerHTML = totalf;
+
+}
+
+
+function plusbtn(clicked_id){
+    var totalf=0;
+    var a = clicked_id.slice(7, );
+    cart = JSON.parse(localStorage.getItem('cart'));
+    cart[a][0] = cart[a][0] + 1;
+    updateCart(cart);
+    $('#id_products_cart').val(JSON.stringify(cart));
+    document.getElementById("qty"+a).innerHTML = cart[a][0].toString();
+    document.getElementById("singletotal"+a).innerHTML = cart[a][3].toString();
+    document.getElementById("singletotall"+a).innerHTML = cart[a][3].toString();
+    for(itemm in cart){
+        totalf = totalf + cart[itemm][3];
+        }
+    document.getElementById('carttotal').innerHTML = totalf;
+}
+
+
+    $('#id_products_cart').val(JSON.stringify(cart));
+
+
+
+
+
+
+
+
+</script>
+{% endblock jsblock %}
+

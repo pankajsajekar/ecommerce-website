@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    {% block css %}{% endblock css %}
+
+    <title>{% block title %}{% endblock title %}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href=" {% static 'dhaagedore/bootstrap/css/bootstrap.min.css' %} " rel="stylesheet">
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href=" {% static 'static/css/fontawesome.css' %} ">
+    <link rel="stylesheet" href=" {% static 'static/css/tooplate-main.css' %} ">
+    <link rel="stylesheet" href=" {% static 'static/css/owl.css' %} ">
+    <link rel="stylesheet" href=" {% static 'static/css/flex-slider.css' %} ">
+    <!--
+    Tooplate 2114 Pixie
+    https://www.tooplate.com/view/2114-pixie
+    -->
+</head>
+
+<body>
+
+<!-- Navigation -->
+<div class="nav_bar">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+        <div class="container">
+            <a class="navbar-brand text-dark" href=" {% static '/' %} ">Dhaage-dore</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item ">
+                        <a class="nav-link {% block homeactive %}{% endblock homeactive %}" href=" {% static '/' %} ">Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% block productsactive %}{% endblock productsactive %}" href=" {% static '/products' %} ">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% block aboutactive %}{% endblock aboutactive %}" href=" {% static '{% url ' {% static 'about' %} ' %}' %} ">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% block contactactive %}{% endblock contactactive %}" href=" {% static '/contact' %} ">Contact
+                            Us</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+{% block body %} {% endblock body %}
+
+<!-- Sub Footer Starts Here -->
+<div class="sub-footer fixed-bottom text-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="copyright-text">
+                    <p>Copyright &copy; 2019 Dhaage-Dore
+                        - Design: <a rel="nofollow" class="text-dark text-decoration-none"
+                                     href="https://www.facebook.com/pankajsajekar">Pankaj_Sajekar</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Sub Footer Ends Here -->
+<!-- Optional JavaScript; choose one of the two! -->
+
+<!-- Option 1: Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+<!-- Option 2: Separate Popper and Bootstrap JS -->
+
+
+<!-- Bootstrap core JavaScript -->
+<script src=" {% static 'dhaagedore/jquery/jquery.min.js' %} "></script>
+<script src=" {% static 'dhaagedore/bootstrap/js/bootstrap.bundle.min.js' %} "></script>
+
+
+<!-- Additional Scripts -->
+<script src=" {% static '{% static 'js/custom.js' %}' %} "></script>
+<script src=" {% static '{% static 'js/owl.js' %} ' %} "></script>
+<script src=" {% static '{% static 'js/isotope.js' %} ' %} "></script>
+
+
+<script language="text/Javascript">
+      cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field
+      function clearField(t){                   //declaring the array outside of the
+      if(! cleared[t.id]){                      // function makes it static and global
+          cleared[t.id] = 1;  // you could use true and false, but that's more typing
+          t.value='';         // with more chance of typos
+          t.style.color='#fff';
+          }
+      }
+
+</script>
+
+
+<!--
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+-->
+</body>
+</html>

@@ -1,0 +1,399 @@
+{% extends "base.html" %}
+{% load static %}
+{% block css %}
+<style>
+body {
+    background-color: #eeeeee;
+    font-family: 'Open Sans', serif;
+    font-size: 14px
+
+}
+
+.container-fluid {
+    margin-top: 70px
+}
+
+.card-body {
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 1.40rem
+}
+
+.img-sm {
+    width: 80px;
+    height: 80px
+}
+
+.itemside .info {
+    padding-left: 15px;
+    padding-right: 7px
+}
+
+.table-shopping-cart .price-wrap {
+    line-height: 1.2
+}
+
+.table-shopping-cart .price {
+    font-weight: bold;
+    margin-right: 5px;
+    display: block
+}
+
+.text-muted {
+    color: #969696 !important
+}
+
+a {
+    text-decoration: none !important
+}
+
+.card {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0, 0, 0, .125);
+    border-radius: 0px
+}
+
+.itemside {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100%
+}
+
+.dlist-align {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex
+}
+
+[class*="dlist-"] {
+    margin-bottom: 5px
+}
+
+.coupon {
+    border-radius: 1px
+}
+
+.price {
+    font-weight: 600;
+    color: #212529
+}
+
+.btn.btn-out {
+    outline: 1px solid #fff;
+    outline-offset: -5px
+}
+
+.btn-main {
+    border-radius: 2px;
+    text-transform: capitalize;
+    font-size: 15px;
+    padding: 10px 19px;
+    cursor: pointer;
+    color: #fff;
+    width: 100%
+}
+
+.btn-light {
+    color: #ffffff;
+    background-color: #F44336;
+    border-color: #f8f9fa;
+    font-size: 12px
+}
+
+.btn-light:hover {
+    color: #ffffff;
+    background-color: #F44336;
+    border-color: #F44336
+}
+
+.btn-apply {
+    font-size: 11px
+}
+
+// plus minus
+.quantity {
+ display: inline-block; }
+
+.quantity .input-text.qty {
+ width: 35px;
+ height: 39px;
+ padding: 0 5px;
+ text-align: center;
+ background-color: transparent;
+ border: 1px solid #efefef;
+}
+
+.quantity.buttons_added {
+ text-align: left;
+ position: relative;
+ white-space: nowrap;
+ vertical-align: top; }
+
+.quantity.buttons_added input {
+ display: inline-block;
+ margin: 0;
+ vertical-align: top;
+ box-shadow: none;
+}
+
+.quantity.buttons_added .minus,
+.quantity.buttons_added .plus {
+ padding: 7px 10px 8px;
+ height: 41px;
+ background-color: #ffffff;
+ border: 1px solid #efefef;
+ cursor:pointer;}
+
+.quantity.buttons_added .minus {
+ border-right: 0; }
+
+.quantity.buttons_added .plus {
+ border-left: 0; }
+
+.quantity.buttons_added .minus:hover,
+.quantity.buttons_added .plus:hover {
+ background: #eeeeee; }
+
+.quantity input::-webkit-outer-spin-button,
+.quantity input::-webkit-inner-spin-button {
+ -webkit-appearance: none;
+ -moz-appearance: none;
+ margin: 0; }
+
+ .quantity.buttons_added .minus:focus,
+.quantity.buttons_added .plus:focus {
+ outline: none; }
+
+
+
+
+
+
+
+
+
+
+
+
+</style>
+{% endblock css %}
+
+{% block title %}MyCart page{% endblock title %}
+{% block cartactive %}active{% endblock cartactive %}
+{% block cartcurrent %}(current){% endblock cartcurrent %}
+
+{% block body %}
+
+<!-- Page Content -->
+<!-- mycart Page Starts Here -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-sm-12">
+            <div class="section-heading ">
+                <div class="line-dec"></div>
+                <h1>Checkout</h1>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 order-md-2 mb-4">
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted">Your cart</span>
+                <span class="badge badge-secondary badge-pill">{{ cart_obj.products_cart.all.count }}</span>
+            </h4>
+            <div class="card">
+                <div class="table-responsive">
+                    <table class="table table-borderless table-shopping-cart" id="items">
+                        <thead class="text-muted">
+                        <tr class="small text-uppercase">
+                            <th scope="col">Product</th>
+                            <th scope="col" width="60">#</th>
+                            <th scope="col" width="120">Price</th>
+                        </tr>
+                        {% for product in cart_obj.products_cart.all %}
+                        <tr>
+                            <td>
+                                <figure class="itemside align-items-center">
+                                    <div class="aside"><img src="{{ product.product.product_img.url }}" class="img-sm"
+                                                            id=""></div>
+                                    <figcaption class="info"><h6 class="title text-dark" data-abc="true">
+                                        {{product.product.product_title}}</h6>
+                                    </figcaption>
+                                </figure>
+                            </td>
+                            <td>
+                                <div class="quantity">
+                                    <div class="quantity buttons_added">
+                                        <span class="text" name="quantity"><b>{{ product.product_quantity }}</b></span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="price-wrap"><span class="price">₹{{ product.total_product_price }}</span>
+                                    <small class="text-muted"> ₹{{ product.single_product_price }}
+                                        each </small></div>
+                            </td>
+
+                        </tr>
+                        {% endfor %}
+                        <tr class="text-success">
+                            <td><span>Total (Rupee)</span></td>
+                            <td></td>
+                            <td><strong> ₹{{ cart_obj.cart_total }}</strong></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-8 order-md-1">
+            <h4 class="mb-3">Billing address</h4>
+            <form class="needs-validation" novalidate="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <label>Name :</label>
+                        {{form.customer_name}}
+
+                        {% if form.customer_name.errors %}
+                                <small class="help-block-none">{{form.customer_name.errors}}</small>
+                                {% endif%}
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label>Email :</label>
+                    {{form.customer_email}}
+                    {% if form.customer_email.errors %}
+                                <small class="help-block-none">{{form.customer_email.errors}}</small>
+                                {% endif%}
+                </div>
+
+                <div class="mb-3">
+                    <label>Address :</label>
+                    {{form.customer_address}}
+                    {% if form.customer_address.errors %}
+                                <small class="help-block-none">{{form.customer_address.errors}}</small>
+                                {% endif%}
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label>Country :</label>
+                        {{form.customer_contry}}
+                        {% if form.customer_contry.errors %}
+                                <small class="help-block-none">{{form.customer_contry.errors}}</small>
+                                {% endif%}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label>State :</label>
+                        {{form.customer_state}}
+                        {% if form.customer_state.errors %}
+                                <small class="help-block-none">{{form.customer_state.errors}}</small>
+                                {% endif%}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label>City :</label>
+                        {{form.customer_city}}
+                        {% if form.customer_city.errors %}
+                                <small class="help-block-none">{{form.customer_city.errors}}</small>
+                                {% endif%}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label>Zip code :</label>
+                        {{form.city_zip}}
+                        {% if form.city_zip.errors %}
+                                <small class="help-block-none">{{form.city_zip.errors}}</small>
+                                {% endif%}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label>Contact no.:</label>
+                        {{form.customer_mobile_number}}
+                        {% if form.customer_mobile_number.errors %}
+                                <small class="help-block-none">{{form.customer_mobile_number.errors}}</small>
+                                {% endif%}
+                    </div>
+                </div>
+
+                <hr class="mb-4">
+
+                <h3 class="mb-3">Payment</h3>
+
+                <div class="d-block my-3">
+                    <div class="custom-control custom-radio">
+                        <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked=""
+                               required="">
+                        <label class="custom-control-label" for="credit">Custom (Google-pay, Phone-pay</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required="">
+                        <label class="custom-control-label" for="debit">Debit card</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" required="">
+                        <label class="custom-control-label" for="paypal">Paypal</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label>Upi Transaction Id :</label>
+                        {{payment_form.upi_transaction_id}}
+                        {% if payment_form.upi_transaction_id.errors %}
+                                <small class="help-block-none">{{payment_form.upi_transaction_id.errors}}</small>
+                                {% endif%}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label>Upi id :</label>
+                        {{payment_form.upi_id}}
+                        {% if payment_form.upi_id.errors %}
+                                <small class="help-block-none">{{payment_form.upi_id.errors}}</small>
+                                {% endif%}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <label>Payment Proof :</label>
+                        {{payment_form.payment_proof}}
+                        <small class="text-muted">upload a proof of payment</small>
+                        {% if payment_form.payment_proof.errors %}
+                                <small class="help-block-none">{{payment_form.payment_proof.errors}}</small>
+                                {% endif%}
+                    </div>
+                </div>
+                <hr class="mb-4">
+                <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+            </form>
+        </div>
+    </div>
+
+
+</div>
+
+
+<!-- mycart Page Ends Here -->
+
+{% endblock body %}
+
+{% block jsblock %}
+<script>
+    {% if ordersuccess %}
+    alert("thanks you your oder id is {{ orderid }},Used your order id and email to track order ");
+    localStorage.clear();
+    document.location = "{% url 'ordertracking' %}"
+    {% endif %}
+
+</script>
+{% endblock jsblock %}
+

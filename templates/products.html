@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block title %}Product Page{% endblock title %}
+{% block productsactive %}active{% endblock productsactive %}%}
+{% block productscurrent %}(current){% endblock productscurrent %}
+{% block body %}
+{% load static %}
+{% load user_tags %}
+
+<!-- Page Content -->
+<!-- Items Starts Here -->
+<div class="featured-page mt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-sm-12 ">
+                <div class="section-heading ">
+                    <div class="line-dec"></div>
+                    <h1>Items</h1>
+                </div>
+            </div>
+            <div class="col-md-8 col-sm-12">
+                <div id="filters" class="button-group">
+                    <a href="?" class="btn btn-primary" >All Products</a>
+                    <a href="?new" class="btn btn-primary" >Newest</a>
+                    <a href="?lowtohigh" class="btn btn-primary" >Low Price</a>
+                    <a href="?hightolow" class="btn btn-primary" >Hight Price</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="featured container no-gutter">
+
+    <div class="row posts">
+        {% for product in products %}
+        <div class="item high col-md-4">
+            <div class="featured-item">
+                <a href="{% url 'singleproduct' product.product_slug %}" id="myurl{{product.id}}"> <img id="imgsrc{{product.id}}" src="{{product.product_img.url}}" style="height:400px;width:300;"
+                                                                               class="card-img-top" alt="">
+                    <h4 id="name{{product.id}}" >{{product.product_title}}</h4>
+                    <h6 >Price: ₹<span id="price{{product.id}}">{{product.product_price }}</span></h6>
+                </a>
+               <a href="{% url 'singleproduct' product.product_slug %}" class="btn btn-info mt-1">view item</a>
+                <span id="div{{product.id}}" class="div">
+                            <button id="{{product.id}}" class="cart btn btn-info mt-1">Add to Cart</button>
+                        </span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+<div class="page-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <!--Pagination-->
+                <ul>
+                    {% if products.has_previous %}
+                    <li><a href="{% relative_url products.previous_page_number 'page' request.GET.urlencode %}"><i class="fa fa-angle-left"></i></a></li>
+                    {% else %}
+                    <li class="disabled"><span><i class="fa fa-angle-left"></i></span></li>
+                    {% endif %}
+                    {% for i in products.paginator.page_range %}
+                    {% if products.number == i %}
+                    <li class="current-page"> <a><span>{{ i }} <span class="sr-only">(current)</span></span> </a></li>
+                    {% else %}
+                    <li><a href="{% relative_url i 'page' request.GET.urlencode %}">{{ i }}</a></li>
+                    {% endif %}
+                    {% endfor %}
+                    {% if products.has_next %}
+                    <li><a href="{% relative_url products.next_page_number 'page' request.GET.urlencode %}"><i class="fa fa-angle-right"></i></a></li>
+                    {% else %}
+                    <li class="disabled"><span><i class="fa fa-angle-right"></i></span></li>
+                    {% endif %}
+                    <!--end of Pagination-->
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Featred Page Ends Here -->
+<!--
+<div class="container my-3">
+    <h2 class="text-center mt-3"></h2>
+    <div class="row">
+        {% for product in products %}
+        <div class="col-sm my-3">
+            <div class="card" style="width: 18rem;">
+                <img src=" {{product.product_img.url}}" class="card-img-top" width="280px" height="350px" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{product.product_title}}</h5>
+                    <p class="card-text">Rs.{{product.product_price }} ₹ </p>
+                    <a href="#" class="btn btn-primary">view product</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+-->
+{% endblock %}

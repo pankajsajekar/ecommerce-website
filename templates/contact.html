@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Contact Page{% endblock title %}
+{% block contactactive %}active{% endblock contactactive %}%}
+{% block contactcurrent %}(current){% endblock contactcurrent %}
+{% block css %}
+<style>
+    .contact-page{
+    min-height:95vh;
+    }
+
+
+</style>
+{% endblock css %}
+{% block body %}
+
+<!-- Page Content -->
+<!-- About Page Starts Here -->
+<div class="mt-5 contact-page">
+    <div class="container">
+        <div class="row">
+            <div class="row">
+                <div class="col-md-4 col-sm-12">
+                    <div class="section-heading mt-0">
+                        <div class="line-dec"></div>
+                        <h1>Contact</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div id="map">
+                    <!-- How to change your own map point
+                           1. Go to Google Maps
+                           2. Click on your location point
+                           3. Click "Share" and choose "Embed map" tab
+                           4. Copy only URL and paste it within the src=" {% static '' %} " field below
+                    -->
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d675.3408574842666!2d72.9788144083657!3d19.20791002618788!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b9385d31f3b9%3A0x476d85374fd1f59d!2sShree%20Hanuman%20Mandir%20(Shree%20Hanuman%20Sewa%20Mandal)!5e0!3m2!1sen!2sin!4v1627138081344!5m2!1sen!2sin"
+                            width="100%" height="500px" frameborder="0" style="border:0" allowfullscreen=""
+                            loading="lazy"></iframe>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="right-content">
+                    <div class="container">
+                        <form method="post" >
+                            {% csrf_token %}
+                            <div class="my-1 px-2">
+                                <label class="form-label">Name :</label>
+                                {{form.name}}
+                                {% if form.name.errors %}
+                                <small class="help-block-none">{{form.name.errors}}</small>
+                                {% endif%}
+                            </div>
+                            <div class="mb-1 px-2">
+                                <label class="form-label">Email address :</label>
+                                {{form.email}}
+                                {% if form.email.errors %}
+                                <small class="help-block-none">{{form.email.errors}}</small>
+                                {% endif%}
+                            </div>
+                            <div class="mb-1 px-2">
+                                <label class="form-label">Query :</label>
+                                {{form.query}}
+                                {% if form.query.errors %}
+                                <small class="help-block-none">{{form.query.errors}}</small>
+                                {% endif%}
+                            </div>
+                            <div class="mb-1 px-2">
+                                <label class="form-label">Descrpition :</label>
+                                {{form.desc}}
+                                {% if form.desc.errors %}
+                                <small class="help-block-none">{{form.desc.errors}}</small>
+                                {% endif%}
+                            </div>
+                            <div class="mb-1 px-5">
+                                <input type="submit" style="font-size: 24px;" value="Submit" name="submit" class="form-control btn btn-success ">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- About Page Ends Here -->
+{% endblock body %}

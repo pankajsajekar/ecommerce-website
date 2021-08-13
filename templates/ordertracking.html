@@ -1,0 +1,219 @@
+{% extends "base.html" %}
+{% load static %}
+{% block css %}
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+body {
+    background-color: #eeeeee;
+    font-family: 'Open Sans', serif
+}
+
+.container {
+}
+
+.card {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 0.10rem
+}
+
+.card-header:first-child {
+    border-radius: calc(0.37rem - 1px) calc(0.37rem - 1px) 0 0
+}
+
+.card-header {
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 0;
+    background-color: #fff;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1)
+}
+
+.track {
+    position: relative;
+    background-color: #ddd;
+    height: 7px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin-bottom: 60px;
+    margin-top: 50px
+}
+
+.track .step {
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    width: 25%;
+    margin-top: -18px;
+    text-align: center;
+    position: relative
+}
+
+.track .step.active:before {
+    background: #FF5722
+}
+
+.track .step::before {
+    height: 7px;
+    position: absolute;
+    content: "";
+    width: 100%;
+    left: 0;
+    top: 18px
+}
+
+.track .step.active .icon {
+    background: #ee5435;
+    color: #fff
+}
+
+.track .icon {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    position: relative;
+    border-radius: 100%;
+    background: #ddd
+}
+
+.track .step.active .text {
+    font-weight: 400;
+    color: #000
+}
+
+.track .text {
+    display: block;
+    margin-top: 7px
+}
+
+.itemside {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100%
+}
+
+.itemside .aside {
+    position: relative;
+    -ms-flex-negative: 0;
+    flex-shrink: 0
+}
+
+.img-sm {
+    width: 80px;
+    height: 80px;
+    padding: 7px
+}
+
+ul.row,
+ul.row-sm {
+    list-style: none;
+    padding: 0
+}
+
+.itemside .info {
+    padding-left: 15px;
+    padding-right: 7px
+}
+
+.itemside .title {
+    display: block;
+    margin-bottom: 5px;
+    color: #212529
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 1rem
+}
+
+.btn-warning {
+    color: #ffffff;
+    background-color: #ee5435;
+    border-color: #ee5435;
+    border-radius: 1px
+}
+
+.btn-warning:hover {
+    color: #ffffff;
+    background-color: #ff2b00;
+    border-color: #ff2b00;
+    border-radius: 1px
+}
+
+
+
+</style>
+{% endblock css %}
+{% block title %}tracking page{% endblock title %}
+{% block ordertrackingactive %}active{% endblock ordertrackingactive %}%}
+{% block ordertrackingcurrent %}(current){% endblock ordertrackingcurrent %}
+{% block body %}
+<!-- Page Content -->
+<!-- trackingPage Starts Here -->
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4 col-sm-12">
+            <div class="section-heading mt-0">
+                <div class="line-dec"></div>
+                <h1>My Orders</h1>
+            </div>
+        </div>
+    </div>
+    <form id="checkorderform" method="POST">
+        {% csrf_token %}
+        <div class="form-row align-items-center">
+            <div class="col-auto">
+                <label class="sr-only" for="inlineFormInput">Name</label>
+                <input type="text" class="form-control mb-2" name="orderid" id="inlineFormInput" placeholder="Order Id">
+            </div>
+            <div class="col-auto">
+                <label class="sr-only" for="inlineFormInputGroup">Username</label>
+                <div class="input-group mb-2">
+                    <input type="email" class="form-control" name="emailid" id="inlineFormInputGroup" placeholder="Email Id">
+                </div>
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary mb-2">Submit</button>
+            </div>
+        </div>
+    </form>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('#checkorderform').submit(function(e) {
+            e.preventDefault();
+            $.ajax({
+                data: $(this).serialize(), // get the form data
+                type: 'POST', // GET or POST
+                url: "{% url 'ordertracking' %}", // the file to call
+                success: function(data) {
+                    $('#ordertracking').html(data);
+                },
+                error: function(response) {
+                    // alert the error if any error occured
+                    alert('abc');
+                }
+
+            });
+        });
+    });
+    </script>
+</div>
+<div class="container">
+    <div id="ordertracking"></div>
+</div>
+<!-- trackingPage Ends Here -->
+{% endblock body %}
